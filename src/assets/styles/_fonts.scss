@@ -1,0 +1,18 @@
+@font-face {
+  font-family: "Dodo Bold";
+  src: url("../fonts/DodoBold.eot");
+  src: local("../fonts/DodoBold"), local("DodoBold"), url("../fonts/DodoBold.eot?#iefix") format("embedded-opentype"), url("../fonts/DodoBold.woff") format("woff"),
+    url("../fonts/DodoBold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Dodo Regular";
+  src: url("../fonts/DodoRegular.eot");
+  src: local("../fonts/DodoRegular"), local("DodoRegular"), url("../fonts/DodoRegular.eot?#iefix") format("embedded-opentype"), url("../fonts/DodoRegular.woff") format("woff"),
+    url("../fonts/DodoRegular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
