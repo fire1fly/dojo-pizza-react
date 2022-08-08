@@ -2,7 +2,7 @@ import React from 'react'
 
 import logo from '../assets/media/pizza-logo.svg';
 
-export default function Header() {
+export default function Header({onCartBtnClick}) {
   return (
     <div className="header">
         <div className="container">
@@ -13,8 +13,8 @@ export default function Header() {
               <p>самая реактивная пиццерия</p>
             </div>
           </div>
-          <div className="header__cart">
-            <a href="/cart.html" className="button button--cart">
+          <div className="header__cart" onClick={() => onCartBtnClick(true)}>
+            <a href="#" className="button button--cart">
               <span>520 ₽</span>
               <div className="button__delimiter"></div>
               <svg

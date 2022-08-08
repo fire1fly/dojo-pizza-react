@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react';
 
-export default function Sort({p1}) {
+const Sort = React.memo(function Sort({sorts}) {
+
+  let [popupActive, setPopupActive] = useState(false);
+  let [activeSort, setActiveSort] = useState(0);
+
+  function handleSort(index) {
+    setActiveSort(index);
+    setPopupActive(false);
+  }
+
   return (
     <div className="sort">
-      <h5>{p1}</h5>
       <div className="sort__label">
         <svg
           width="10"
@@ -18,15 +26,29 @@ export default function Sort({p1}) {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span onClick={() => setPopupActive(flag => !flag)}>популярности</span>
       </div>
-      <div className="sort__popup">
-        <ul>
-          <li className="active">популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
-        </ul>
-      </div>
+      { popupActive ?
+        <div className="sort__popup">
+            <ul>
+            {
+              sorts.map((item, i) => 
+                <li
+                  key={i}
+                  onClick={() => {
+                    handleSort(i)
+                  }}
+                  className={activeSort === i ? 'active' : null}>
+                  {item.name}
+                </li>
+              )
+            }
+          </ul>
+        </div> :
+        null
+      }
     </div>
   )
-}
+});
+
+export default Sort;
