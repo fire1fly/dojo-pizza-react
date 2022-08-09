@@ -101,7 +101,7 @@
     border-top-left-radius: 20px
     border-top-right-radius: 20px
     width: 100%
-    transform: translate(0, 100%)
+    // transform: translate(0, 100%)
     &-popup
       padding-top: 20px
       &.closing
@@ -111,7 +111,13 @@
         flex-direction: column
       &-close
         margin-right: 0
-        margin-bottom: 20px
+        margin-bottom: 10px
+        svg
+          width: 20px
+          height: 20px
+    &-clear
+      &-label
+        display: none
 
 @media ( max-width: 450px )
   .pizza

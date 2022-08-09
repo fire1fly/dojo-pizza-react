@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react';
+import useScrollbarSize from 'react-scrollbar-size';
 
 import './assets/styles/app.sass';
 import goods from './assets/db.json'
 
-import { Header, Categories, Sort, ProductCard, Cart } from './components';
+import { Header, Categories, Sort, ProductCard, Cart, CartEmpty, CartStatic } from './components';
 
 const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
 const sorts = [
@@ -16,8 +17,10 @@ function App() {
 
   let [cartActive, setCartActive] = useState(false);
 
+  let { width } = useScrollbarSize();
+
   function openCart(flag) {
-    setCartActive(flag)
+    setCartActive(flag);
   }
 
   return (
@@ -42,7 +45,9 @@ function App() {
           </div>
         </div>
       </div>
-      {cartActive ? <Cart onCartBtnClick={openCart} /> : null}
+      {cartActive ? <Cart onCartBtnClick={openCart} scrollbarWidth={width} /> : null}
+      {/* <CartEmpty /> */}
+      <CartStatic />
     </div>
   );
 }

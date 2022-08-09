@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 
-export default function Cart({ onCartBtnClick }) {
+export default function Cart({ onCartBtnClick, scrollbarWidth }) {
 
   const popupEl = useRef(null);
 
   useEffect(() => {
     document.documentElement.classList.add("scroll-lock");
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
     setTimeout(() => {
       popupEl.current.classList.add("active");
     }, 0);
@@ -17,6 +18,7 @@ export default function Cart({ onCartBtnClick }) {
       popupEl.current.classList.remove("active");
       onCartBtnClick(false);
       document.documentElement.classList.remove("scroll-lock");
+      document.body.style.paddingRight = '';
     }, 300);
   }
   
@@ -30,7 +32,7 @@ export default function Cart({ onCartBtnClick }) {
           </svg>
         </div>
         <div className="cart">
-
+          
         </div>
       </div>
     </div>
