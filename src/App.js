@@ -1,8 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useScrollbarSize from 'react-scrollbar-size';
 
 import './assets/styles/app.sass';
-import goods from './assets/db.json'
 
 import { Header, Categories, Sort, ProductCard, Cart, CartEmpty, CartStatic } from './components';
 
@@ -15,7 +14,18 @@ const sorts = [
 
 function App() {
 
+  let [products, setProducts] = useState([]);
   let [cartActive, setCartActive] = useState(false);
+
+  useEffect(() => {
+    fetch("https://62f4edb1ac59075124c73e43.mockapi.io/products")
+      .then((res) => {
+        return res.json();
+      })
+      .then(json => {
+        setProducts(json);
+      });
+  }, []);
 
   let { width } = useScrollbarSize();
 
@@ -35,7 +45,7 @@ function App() {
           <h2 className="content__title">Пицца</h2>
           <div className="content__items">
             {
-              goods.map(item =>
+              products.map(item =>
                 <ProductCard
                   key={item.id}
                   {...item}
@@ -45,9 +55,9 @@ function App() {
           </div>
         </div>
       </div>
-      {cartActive ? <Cart onCartBtnClick={openCart} scrollbarWidth={width} /> : null}
+      {/* {cartActive ? <Cart onCartBtnClick={openCart} scrollbarWidth={width} /> : null} */}
       {/* <CartEmpty /> */}
-      <CartStatic />
+      {/* <CartStatic /> */}
     </div>
   );
 }

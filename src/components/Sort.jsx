@@ -14,6 +14,7 @@ const Sort = React.memo(function Sort({sorts}) {
     <div className="sort">
       <div className="sort__label">
         <svg
+          transform={popupActive ? "rotate(180)" : null}
           width="10"
           height="6"
           viewBox="0 0 10 6"
@@ -26,10 +27,12 @@ const Sort = React.memo(function Sort({sorts}) {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setPopupActive(flag => !flag)}>популярности</span>
+        <span onClick={() => setPopupActive(flag => !flag)}>
+          {sorts[activeSort].name}
+        </span>
       </div>
-      { popupActive ?
-        <div className="sort__popup">
+      { popupActive &&
+        (<div className="sort__popup">
             <ul>
             {
               sorts.map((item, i) => 
@@ -44,8 +47,7 @@ const Sort = React.memo(function Sort({sorts}) {
               )
             }
           </ul>
-        </div> :
-        null
+        </div>)
       }
     </div>
   )

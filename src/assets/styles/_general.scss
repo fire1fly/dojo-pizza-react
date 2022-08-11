@@ -163,7 +163,8 @@ a {
 .button--add {
 	display: inline-flex;
 	align-items: center;
-	padding: 8px 12px;
+  height: 38px;
+  padding: 0 12px;
 }
 .button--add svg {
   margin-right: 2px;
@@ -419,7 +420,7 @@ a {
   background-color: rgb(243, 243, 247);
   transition: transform 0.3s;
   will-change: transform;
-  // transform: translate(100%, 0);
+  transform: translate(100%, 0);
   &-popup {
     position: fixed;
     top: 0;
@@ -456,7 +457,7 @@ a {
       width: 100%;
       height: 100%;
       background-color: rgba(0, 0, 0, 0.64);
-      // opacity: 0;
+      opacity: 0;
       transition: opacity 0.3s;
     }
     &__inner {
