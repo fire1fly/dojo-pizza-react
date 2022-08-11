@@ -3,7 +3,7 @@ import useScrollbarSize from 'react-scrollbar-size';
 
 import './assets/styles/app.sass';
 
-import { Header, Categories, Sort, ProductCard, Cart, CartEmpty, CartStatic } from './components';
+import { Header, Categories, Sort, ProductCard, ProductSkelet, Cart, CartEmpty, CartStatic } from './components';
 
 const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
 const sorts = [
@@ -33,6 +33,8 @@ function App() {
     setCartActive(flag);
   }
 
+  console.log(products.length);
+
   return (
     <div className="wrapper">
       <Header onCartBtnClick={openCart} />
@@ -45,12 +47,9 @@ function App() {
           <h2 className="content__title">Пицца</h2>
           <div className="content__items">
             {
-              products.map(item =>
-                <ProductCard
-                  key={item.id}
-                  {...item}
-                />
-              )
+              products.length !== 0 ?
+                products.map(item => <ProductCard key={item.id} {...item} />) :
+                Array(10).fill('').map((_, i) => <ProductSkelet key={i} />)
             }
           </div>
         </div>
