@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { Link } from "react-router-dom";
 
 import logo from '../assets/media/pizza-logo.svg';
 
@@ -6,13 +7,15 @@ export default function Header({onCartBtnClick}) {
   return (
     <div className="header">
         <div className="container">
-          <div className="header__logo">
-            <img width="38" src={logo} alt="Pizza logo" />
-            <div>
-              <h1>Dojo Pizza</h1>
-              <p>самая реактивная пиццерия</p>
+          <Link to="/">
+            <div className="header__logo">
+              <img width="38" src={logo} alt="Pizza logo" />
+              <div>
+                <h1>Dojo Pizza</h1>
+                <p>самая реактивная пиццерия</p>
+              </div>
             </div>
-          </div>
+          </Link>
           <div className="header__cart" onClick={() => onCartBtnClick(true)}>
             <a href="#" className="button button--cart">
               <span>520 ₽</span>
