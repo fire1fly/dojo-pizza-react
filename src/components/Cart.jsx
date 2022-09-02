@@ -21,7 +21,7 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
       document.body.style.paddingRight = '';
     }, 300);
   }
-  
+
   return (
     <div className="cart-popup" ref={popupEl}>
       <div className="cart-popup__backdrop"></div>

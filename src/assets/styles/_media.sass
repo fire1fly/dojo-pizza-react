@@ -26,8 +26,6 @@
 @media ( max-width: 768px )
   .header
     padding: 12px 0
-    .container
-      flex-wrap: wrap
     &__logo
       img
         margin-right: 5px
@@ -64,8 +62,23 @@
       ul
         li
           font-size: 14px
+  .search
+    flex: 0 1 300px
+    height: 37px
+    &__input
+      font-size: 14px
+    &__icon
+      width: 20px
+      height: 20px
 
 @media ( max-width: 520px )
+  .header
+    .container
+      flex-wrap: wrap
+  .search
+    margin: 15px 0 0
+    order: 1
+    flex: 1 1 auto
   .content
     &__items
       display: flex

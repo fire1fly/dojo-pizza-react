@@ -10,25 +10,22 @@ import { Header, Cart, CartEmpty, CartStatic } from './components';
 function App() {
 
   let [cartActive, setCartActive] = useState(false);
-
-  function openCart(flag) {
-    setCartActive(flag);
-  }
+  let [searchValue, setSearchValue] = useState('');
 
   let { width } = useScrollbarSize();
 
   return (
     <div className="wrapper">
-      <Header onCartBtnClick={openCart} />
+      <Header onCartBtnClick={setCartActive} searchValue={searchValue} setSearchValue={setSearchValue} />
       <div className="content">
         <div className="container">
           <Routes>
-            <Route path="/" element={<Main />} />
+            <Route path="/" element={<Main searchValue={searchValue} />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </div>
       </div>
-      {cartActive ? <Cart onCartBtnClick={openCart} scrollbarWidth={width} /> : null}
+      {cartActive ? <Cart onCartBtnClick={setCartActive} scrollbarWidth={width} /> : null}
       {/* <CartEmpty /> */}
       {/* <CartStatic /> */}
     </div>

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
+import Search from './Search';
 import logo from '../assets/media/pizza-logo.svg';
 
-export default function Header({onCartBtnClick}) {
+export default function Header({onCartBtnClick, searchValue, setSearchValue}) {
   return (
     <div className="header">
         <div className="container">
@@ -12,10 +13,13 @@ export default function Header({onCartBtnClick}) {
               <img width="38" src={logo} alt="Pizza logo" />
               <div>
                 <h1>Dojo Pizza</h1>
-                <p>самая реактивная пиццерия</p>
+                <p>Сеть пиццерий №1 в React'е</p>
               </div>
             </div>
           </Link>
+
+          <Search searchValue={searchValue} setSearchValue={setSearchValue} />
+
           <div className="header__cart" onClick={() => onCartBtnClick(true)}>
             <a href="#" className="button button--cart">
               <span>520 ₽</span>
