@@ -6,8 +6,6 @@ export default function Pagination({count, step, setStep}) {
 
   pagList = Array(count).fill('').map((_, index) => index + 1);
 
-  console.log(step);
-
   function handleStep(flag) {
     if (flag === "prev" && step > 1) {
       setStep(prev => prev - 1);

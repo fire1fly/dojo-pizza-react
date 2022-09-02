@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import iconSearch from '../assets/media/icon-search.svg';
 import iconClear from '../assets/media/icon-clear.svg';
+import { Context } from '../App';
 
-export default function Search({searchValue, setSearchValue}) {
+export default function Search() {
+
+  const {search} = useContext(Context);
+  let {searchValue, setSearchValue} = search;
 
   return (
     <div className="search">

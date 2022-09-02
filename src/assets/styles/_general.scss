@@ -288,8 +288,21 @@ a {
   overflow: hidden;
 }
 .sort__popup ul li {
-  padding: 12px 20px;
+  padding: 10px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .order {
+    margin-left: 10px;
+    svg {
+      width: 15px;
+      height: 20px;
+      path {
+        fill: $secondary-color
+      }
+    }
+  }
 }
 .sort__popup ul li.active,
 .sort__popup ul li:hover {

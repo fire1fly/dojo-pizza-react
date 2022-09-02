@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Search from './Search';
 import logo from '../assets/media/pizza-logo.svg';
 
-export default function Header({onCartBtnClick, searchValue, setSearchValue}) {
+export default function Header({onCartBtnClick}) {
   return (
     <div className="header">
         <div className="container">
@@ -18,7 +18,7 @@ export default function Header({onCartBtnClick, searchValue, setSearchValue}) {
             </div>
           </Link>
 
-          <Search searchValue={searchValue} setSearchValue={setSearchValue} />
+          <Search/>
 
           <div className="header__cart" onClick={() => onCartBtnClick(true)}>
             <a href="#" className="button button--cart">

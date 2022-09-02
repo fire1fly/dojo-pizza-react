@@ -1,39 +1,50 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { Context } from '../App';
 
 
 import {Categories, Sort, ProductCard, ProductSkelet, Pagination } from '../components';
 
 const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
 const sorts = [
-  { type: 'rating', name: 'популярности' },
-  { type: 'price', name: 'цене' },
-  { type: 'title', name: 'алфавиту' },
+  { type: 'rating', name: 'популярности', order: "asc" },
+  { type: 'price', name: 'цене', order: "asc" },
+  { type: 'name', name: 'алфавиту', order: "asc" }
 ];
 
-export function Main({searchValue}) {
+export function Main() {
+
+  const {search, category, sort} = useContext(Context);
+  let {searchValue} = search;
+  let {catValue} = category;
+  let {activeSort} = sort;
+
+  console.log(activeSort);
 
   let [products, setProducts] = useState([]);
   let [loading, setLoading] = useState(true);
   let [pagStep, setPagStep] = useState(1);
 
-  console.log(pagStep);
-
   useEffect(() => {
     setLoading(true);
 
     const search = searchValue ? `&search=${searchValue}` : '';
+    const category = catValue !== 0 ? `&category=${catValue}` : '';
 
-    fetch(`https://62f4edb1ac59075124c73e43.mockapi.io/products?p=${pagStep}&l=10${search}`)
+    fetch(`https://62f4edb1ac59075124c73e43.mockapi.io/products?p=
+      ${pagStep}&l=10
+      &sortBy=${activeSort.type}&order=${activeSort.order}
+      ${category}
+      ${search}
+    `)
       .then((res) => {
         return res.json();
       })
       .then(json => {
-        console.log(json);
         setLoading(false);
         setProducts(json);
       });
       window.scrollTo(0, 0);
-  }, [searchValue, pagStep]);
+  }, [pagStep, searchValue, catValue, activeSort]);
 
 
   return (
@@ -50,11 +61,15 @@ export function Main({searchValue}) {
             Array(10).fill('').map((_, i) => <ProductSkelet key={i} />)
         }
       </div>
-      <Pagination 
-        count={2}
-        step={pagStep}
-        setStep={setPagStep}
-      />
+      {
+        products.length !== 0 ?
+          <Pagination 
+            count={2}
+            step={pagStep}
+            setStep={setPagStep}
+          /> : 
+          null
+      }
     </>
   )
 }

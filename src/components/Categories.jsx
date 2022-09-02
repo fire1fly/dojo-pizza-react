@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
-
+import React, { useContext, useState } from 'react';
+import { Context } from '../App';
 
 export default function Categories({categories}) {
 
-  const [catIndex, setCatIndex] = useState(0);
-
-  const handleCategories = (index) => {
-    setCatIndex(index);
-  }
+  const { category } = useContext(Context);
+  let { catValue, setCatValue } = category;
 
   return (
     <div className="categories">
@@ -16,8 +13,8 @@ export default function Categories({categories}) {
           categories.map((item, index) => 
             <li 
               key={index} 
-              onClick={() => handleCategories(index)}
-              className={index === catIndex ? "active" : null}>
+              onClick={() => setCatValue(index)}
+              className={index === catValue ? "active" : null}>
                 {item}
             </li>
           )
