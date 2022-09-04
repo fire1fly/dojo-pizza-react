@@ -13,15 +13,11 @@ function App() {
 
   let [cartActive, setCartActive] = useState(false);
   let [searchValue, setSearchValue] = useState('');
-  const [catValue, setCatValue] = useState(0);
-  let [activeSort, setActiveSort] = useState({ id: 0, type: 'rating', order: "desc" });
 
   let { width } = useScrollbarSize();
 
   const contextValue = {
-    search: { searchValue, setSearchValue },
-    category: { catValue, setCatValue },
-    sort: { activeSort, setActiveSort }
+    search: { searchValue, setSearchValue }
   }
 
   return (

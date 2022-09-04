@@ -250,6 +250,16 @@ a {
   position: relative;
 	margin-bottom: 15px;
   user-select: none;
+  .order {
+    margin-left: 5px;
+    svg {
+      width: 15px;
+      height: 20px;
+      path {
+        fill: $secondary-color
+      }
+    }
+  }
 }
 .sort__label {
   display: -webkit-box;
@@ -265,12 +275,16 @@ a {
 .sort__label b {
   margin-right: 8px;
 }
-.sort__label span {
+.sort__label .sort__value {
 	position: relative;
 	top: 1px;
-  color: $secondary-color;
-  border-bottom: 1px dashed $secondary-color;
+  display: flex;
+  align-items: center;
   cursor: pointer;
+  span {
+    color: $secondary-color;
+    border-bottom: 1px dashed $secondary-color;
+  }
 }
 .sort__popup {
   position: absolute;
@@ -293,16 +307,6 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  .order {
-    margin-left: 10px;
-    svg {
-      width: 15px;
-      height: 20px;
-      path {
-        fill: $secondary-color
-      }
-    }
-  }
 }
 .sort__popup ul li.active,
 .sort__popup ul li:hover {

@@ -1,21 +1,21 @@
-import React, { useContext, useState } from 'react';
-import { Context } from '../App';
+import React, { useState } from 'react';
 
-const Sort = React.memo(function Sort({sorts}) {
+import { useSelector, useDispatch } from 'react-redux';
+import { changeSort } from '../store/sortSlice';
+
+const Sort = function Sort() {
 
   let [popupActive, setPopupActive] = useState(false);
-  
-  const { sort } = useContext(Context);
-  let { activeSort, setActiveSort } = sort;
+
+  const dispatch = useDispatch();
+  const {sorts, activeSort} = useSelector(state => state.sort);  
 
   function handleSort(e, sortInList, sort) {
     if (e.target.closest(".active")) {
-      let order = sort.order === "asc" ? "desc" : "asc";
-      sort.order = order;
-      sortInList.order = order;
+      sort.order = sort.order === "asc" ? "desc" : "asc";
     }
-    setActiveSort(sort);
     setPopupActive(false);
+    dispatch(changeSort(sort));
   }
 
   return (
@@ -35,9 +35,20 @@ const Sort = React.memo(function Sort({sorts}) {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setPopupActive(flag => !flag)}>
-          {sorts[activeSort.id].name}
-        </span>
+        <div className="sort__value" onClick={() => setPopupActive(flag => !flag)}>
+          <span>{sorts[activeSort.id].name}</span>
+          <div className="order">
+            {activeSort.order === "asc" ? 
+              <svg className="order-asc" enableBackground="new 0 0 32 32" height="32px" version="1.1" viewBox="0 0 32 32" width="32px" xmlns="http://www.w3.org/2000/svg" >
+                <path clipRule="evenodd" d="M26.704,10.192l-9.999-9.899  c-0.397-0.393-1.03-0.378-1.428,0l-9.999,9.9c-0.394,0.391-0.394,1.024,0,1.414c0.395,0.391,1.034,0.391,1.429,0l8.275-8.192V31  c0,0.552,0.452,1,1.01,1s1.01-0.448,1.01-1V3.414l8.275,8.192c0.394,0.391,1.034,0.391,1.428,0  C27.099,11.216,27.099,10.583,26.704,10.192z"  fillRule="evenodd"/>
+              </svg> 
+              :
+              <svg className="order-desc" enableBackground="new 0 0 32 32" height="32px" version="1.1" viewBox="0 0 32 32" width="32px"xmlns="http://www.w3.org/2000/svg" >
+                <path clipRule="evenodd" d="M26.704,20.393  c-0.394-0.39-1.034-0.391-1.428,0l-8.275,8.193V1c0-0.552-0.452-1-1.01-1s-1.01,0.448-1.01,1v27.586l-8.275-8.192  c-0.394-0.391-1.034-0.391-1.428,0c-0.394,0.391-0.394,1.024,0,1.414l9.999,9.899c0.39,0.386,1.039,0.386,1.429,0l9.999-9.899  C27.099,21.417,27.099,20.784,26.704,20.393C26.31,20.003,27.099,20.784,26.704,20.393z" fillRule="evenodd"/>
+              </svg>
+            }
+          </div>
+        </div>
       </div>
       { popupActive &&
         (<div className="sort__popup">
@@ -70,6 +81,6 @@ const Sort = React.memo(function Sort({sorts}) {
       }
     </div>
   )
-});
+}
 
 export default Sort;

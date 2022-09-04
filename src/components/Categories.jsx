@@ -1,10 +1,12 @@
-import React, { useContext, useState } from 'react';
-import { Context } from '../App';
+import React from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { changeCategory } from '../store/categorySlice';
 
 export default function Categories({categories}) {
 
-  const { category } = useContext(Context);
-  let { catValue, setCatValue } = category;
+  const dispatch = useDispatch();
+  const catValue = useSelector(state => state.category.activeCategory);
 
   return (
     <div className="categories">
@@ -13,7 +15,7 @@ export default function Categories({categories}) {
           categories.map((item, index) => 
             <li 
               key={index} 
-              onClick={() => setCatValue(index)}
+              onClick={() => dispatch(changeCategory(index))}
               className={index === catValue ? "active" : null}>
                 {item}
             </li>

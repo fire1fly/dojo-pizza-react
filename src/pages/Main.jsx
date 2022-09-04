@@ -1,24 +1,18 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Context } from '../App';
 
+import { useSelector } from 'react-redux';
 
 import {Categories, Sort, ProductCard, ProductSkelet, Pagination } from '../components';
 
-const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
-const sorts = [
-  { type: 'rating', name: 'популярности', order: "asc" },
-  { type: 'price', name: 'цене', order: "asc" },
-  { type: 'name', name: 'алфавиту', order: "asc" }
-];
-
 export function Main() {
 
-  const {search, category, sort} = useContext(Context);
-  let {searchValue} = search;
-  let {catValue} = category;
-  let {activeSort} = sort;
-
+  const {categories, activeCategory} = useSelector(state => state.category);
+  const { activeSort } = useSelector(state => state.sort);
   console.log(activeSort);
+
+  const { search } = useContext(Context);
+  let { searchValue } = search;
 
   let [products, setProducts] = useState([]);
   let [loading, setLoading] = useState(true);
@@ -28,7 +22,7 @@ export function Main() {
     setLoading(true);
 
     const search = searchValue ? `&search=${searchValue}` : '';
-    const category = catValue !== 0 ? `&category=${catValue}` : '';
+    const category = activeCategory !== 0 ? `&category=${activeCategory}` : '';
 
     fetch(`https://62f4edb1ac59075124c73e43.mockapi.io/products?p=
       ${pagStep}&l=10
@@ -44,14 +38,14 @@ export function Main() {
         setProducts(json);
       });
       window.scrollTo(0, 0);
-  }, [pagStep, searchValue, catValue, activeSort]);
+  }, [pagStep, searchValue, activeCategory, activeSort]);
 
 
   return (
     <>
       <div className="content__top">
         <Categories categories={categories} />
-        <Sort sorts={sorts} />
+        <Sort/>
       </div>
       <h2 className="content__title">Пицца</h2>
       <div className="content__items">
