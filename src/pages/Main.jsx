@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Context } from '../App';
 
+import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 import {Categories, Sort, ProductCard, ProductSkelet, Pagination } from '../components';
@@ -9,7 +10,6 @@ export function Main() {
 
   const {categories, activeCategory} = useSelector(state => state.category);
   const { activeSort } = useSelector(state => state.sort);
-  console.log(activeSort);
 
   const { search } = useContext(Context);
   let { searchValue } = search;
@@ -24,22 +24,18 @@ export function Main() {
     const search = searchValue ? `&search=${searchValue}` : '';
     const category = activeCategory !== 0 ? `&category=${activeCategory}` : '';
 
-    fetch(`https://62f4edb1ac59075124c73e43.mockapi.io/products?p=
+    axios.get(`https://62f4edb1ac59075124c73e43.mockapi.io/products?p=
       ${pagStep}&l=10
       &sortBy=${activeSort.type}&order=${activeSort.order}
       ${category}
       ${search}
     `)
-      .then((res) => {
-        return res.json();
-      })
-      .then(json => {
+      .then(res => {
         setLoading(false);
-        setProducts(json);
+        setProducts(res.data);
       });
       window.scrollTo(0, 0);
   }, [pagStep, searchValue, activeCategory, activeSort]);
-
 
   return (
     <>
