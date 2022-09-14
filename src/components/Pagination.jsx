@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-export default function Pagination({count, step, setStep}) {
+import { useSelector, useDispatch } from 'react-redux';
+import { changePage } from '../store/filterSlice';
+
+export default function Pagination({count}) {
 
   let pagList = [];
-
   pagList = Array(count).fill('').map((_, index) => index + 1);
 
+  const dispatch = useDispatch();
+  const { activePage } = useSelector(state => state.filter);
+
   function handleStep(flag) {
-    if (flag === "prev" && step > 1) {
-      setStep(prev => prev - 1);
+    if (flag === "prev" && activePage > 1) {
+      dispatch(changePage(activePage - 1));
     }
-    if (flag === "next" && step < count) {
-      setStep(prev => prev + 1);
+    if (flag === "next" && activePage < count) {
+      dispatch(changePage(activePage + 1));
     }
   }
 
@@ -26,19 +31,19 @@ export default function Pagination({count, step, setStep}) {
         {
           pagList
           .filter(item => {
-            if (item === step + 1 || 
-                item === step + 2 || 
-                item === step || 
-                item === step - 1|| 
-                item === step - 2) {
+            if (item === activePage + 1 || 
+                item === activePage + 2 || 
+                item === activePage || 
+                item === activePage - 1|| 
+                item === activePage - 2) {
               return true;
             }
           })
           .map((item, index) => 
             <div
               key={index} 
-              className={`pag-item ${step === item ? "active" : ""}`}
-              onClick={() => setStep(item)}
+              className={`pag-item ${activePage === item ? "active" : ""}`}
+              onClick={() => dispatch(changePage(item))}
             >
               {item}
             </div>

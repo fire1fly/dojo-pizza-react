@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { changeCategory } from '../store/categorySlice';
+import { changeCategory } from '../store/filterSlice';
 
 export default function Categories({categories}) {
 
   const dispatch = useDispatch();
-  const catValue = useSelector(state => state.category.activeCategory);
+  const catValue = useSelector(state => state.filter.activeCategory);
 
   return (
     <div className="categories">

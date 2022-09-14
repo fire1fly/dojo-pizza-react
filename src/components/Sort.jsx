@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { changeSort } from '../store/sortSlice';
+import { changeSort } from '../store/filterSlice';
 
 const Sort = function Sort() {
 
   let [popupActive, setPopupActive] = useState(false);
 
   const dispatch = useDispatch();
-  const {sorts, activeSort} = useSelector(state => state.sort);  
+  const {sorts, activeSort} = useSelector(state => state.filter);  
 
-  function handleSort(e, sortInList, sort) {
+  function handleSort(e, sort) {
     if (e.target.closest(".active")) {
       sort.order = sort.order === "asc" ? "desc" : "asc";
     }
@@ -58,7 +58,7 @@ const Sort = function Sort() {
                 <li
                   key={i}
                   onClick={(e) => {
-                    handleSort(e, item, {id: i, type: item.type, order: item.order})
+                    handleSort(e, {id: i, type: item.type, order: item.order})
                   }}
                   className={activeSort.id === i ? 'active' : null}>
                   <div className="label">{item.name}</div>
