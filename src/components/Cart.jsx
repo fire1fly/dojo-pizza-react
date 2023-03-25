@@ -1,4 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+
+const productTypes = ['тонкое', 'традиционное'];
 
 export default function Cart({ onCartBtnClick, scrollbarWidth }) {
 
@@ -10,7 +13,7 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
     setTimeout(() => {
       popupEl.current.classList.add("active");
     }, 0);
-  }, []);
+  }, [scrollbarWidth]);
 
   function closeCart() {
     popupEl.current.classList.add("closing");
@@ -21,6 +24,10 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
       document.body.style.paddingRight = '';
     }, 300);
   }
+
+  const products = useSelector(state => state.cart.items);
+
+  console.log(products);
 
   return (
     <div className="cart-popup" ref={popupEl}>
@@ -48,68 +55,42 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
 
             <div className="cart-b">
               <div className="cart-b__inner">
-                <div className="card">
-                  <div className="card-delete">
-                    <svg fill="none" viewBox="0 0 24 24">
-                      <path d="M17.3 5.3a1 1 0 111.4 1.4L13.42 12l5.3 5.3a1 1 0 11-1.42 1.4L12 13.42l-5.3 5.3a1 1 0 01-1.4-1.42l5.28-5.3-5.3-5.3A1 1 0 016.7 5.3l5.3 5.28 5.3-5.3z" fill="#000"></path>
-                    </svg>
-                  </div>
-                  <div className="card-b">
-                    <img 
-                      src="https://cdn.dodostatic.net/static/Img/Products/10abc7eb6428475c9263709a1266558c_138x138.jpeg"
-                      alt="пицца" 
-                      className="card-pic"/>
-                    <div className="card-inf">
-                      <div className="card-title">Сырная</div>
-                      <div className="card-exinf">Средняя 30 см, традиционное тесто</div>
-                    </div>
-                  </div>
-                  <div className="card-f">
-                    <div className="card-price">568 ₽</div>
-                    <div className="card-bar">
-                      <div className="card-bar-btn minus">
-                      <svg width="10" height="10" viewBox="0 0 10 10"><rect fill="#FFFFFF" y="4" width="10" height="2" rx="1"></rect></svg>
-                      </div>
-                      <div className="card-bar__value">1</div>
-                      <div className="card-bar-btn plus">
-                        <svg width="10" height="10" viewBox="0 0 10 10">
-                          <g fill="#FFFFFF"><rect x="4" width="2" height="10" ry="1"></rect><rect y="4" width="10" height="2" rx="1"></rect></g>
+                {
+                  products.map((item, i) => 
+                    <div key={i} className="card">
+                      <div className="card-delete">
+                        <svg fill="none" viewBox="0 0 24 24">
+                          <path d="M17.3 5.3a1 1 0 111.4 1.4L13.42 12l5.3 5.3a1 1 0 11-1.42 1.4L12 13.42l-5.3 5.3a1 1 0 01-1.4-1.42l5.28-5.3-5.3-5.3A1 1 0 016.7 5.3l5.3 5.28 5.3-5.3z" fill="#000"></path>
                         </svg>
                       </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="card">
-                  <div className="card-delete">
-                    <svg fill="none" viewBox="0 0 24 24">
-                      <path d="M17.3 5.3a1 1 0 111.4 1.4L13.42 12l5.3 5.3a1 1 0 11-1.42 1.4L12 13.42l-5.3 5.3a1 1 0 01-1.4-1.42l5.28-5.3-5.3-5.3A1 1 0 016.7 5.3l5.3 5.28 5.3-5.3z" fill="#000"></path>
-                    </svg>
-                  </div>
-                  <div className="card-b">
-                    <img 
-                      src="https://cdn.dodostatic.net/static/Img/Products/10abc7eb6428475c9263709a1266558c_138x138.jpeg"
-                      alt="пицца" 
-                      className="card-pic"/>
-                    <div className="card-inf">
-                      <div className="card-title">Сырная</div>
-                      <div className="card-exinf">Средняя 30 см, традиционное тесто</div>
-                    </div>
-                  </div>
-                  <div className="card-f">
-                    <div className="card-price">568 ₽</div>
-                    <div className="card-bar">
-                      <div className="card-bar-btn minus">
-                      <svg width="10" height="10" viewBox="0 0 10 10"><rect fill="#FFFFFF" y="4" width="10" height="2" rx="1"></rect></svg>
+                      <div className="card-b">
+                        <img 
+                          src={item.imageUrl}
+                          alt="пицца" 
+                          className="card-pic"/>
+                        <div className="card-inf">
+                          <div className="card-title">{item.name}</div>
+                          <div className="card-exinf">Размер: {item.size} см., {productTypes[item.type]} тесто</div>
+                        </div>
                       </div>
-                      <div className="card-bar__value">1</div>
-                      <div className="card-bar-btn plus">
-                        <svg width="10" height="10" viewBox="0 0 10 10">
-                          <g fill="#FFFFFF"><rect x="4" width="2" height="10" ry="1"></rect><rect y="4" width="10" height="2" rx="1"></rect></g>
-                        </svg>
+                      <div className="card-f">
+                        <div className="card-price">{item.price * item.count} ₽T</div>
+                        <div className="card-bar">
+                          <div className="card-bar-btn minus">
+                          <svg width="10" height="10" viewBox="0 0 10 10"><rect fill="#FFFFFF" y="4" width="10" height="2" rx="1"></rect></svg>
+                          </div>
+                          <div className="card-bar__value">{item.count}</div>
+                          <div className="card-bar-btn plus">
+                            <svg width="10" height="10" viewBox="0 0 10 10">
+                              <g fill="#FFFFFF"><rect x="4" width="2" height="10" ry="1"></rect><rect y="4" width="10" height="2" rx="1"></rect></g>
+                            </svg>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  )
+                }
+                
               </div>
             </div>
             <div className="cart-f">

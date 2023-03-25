@@ -377,6 +377,7 @@ a {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  transition: 0.2s ease-in-out;
 }
 .pizza-block__selector ul li.active {
   background: #ffffff;

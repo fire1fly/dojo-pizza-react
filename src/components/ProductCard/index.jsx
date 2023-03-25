@@ -1,16 +1,31 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-const goodsTypes = ['тонкое', 'традиционное']
+import { addItem } from '../../store/cartSlice';
 
-export default function ProductCard({name, price, imageUrl, sizes, types}) {
+const productTypes = ['тонкое', 'традиционное'];
 
+export default function ProductCard({id, name, price, imageUrl, sizes, types}) {
 
   let [count, setCount] = useState(0);
   let [activeSize, setActiveSize] = useState(0);
   let [activeType, setActiveType] = useState(0);
 
-  const handleCountProduct = () => {
+  const dispatch = useDispatch();
+
+  const addProductToCart = () => {
     setCount(++count);
+
+    const product = { 
+      id: `${id}_${activeType}_${sizes[activeSize]}`,
+      name, 
+      price, 
+      imageUrl, 
+      size: sizes[activeSize],
+      type: activeType
+    }
+
+    dispatch(addItem(product));
   }
 
   return (
@@ -28,9 +43,9 @@ export default function ProductCard({name, price, imageUrl, sizes, types}) {
             types.map((type, i) => 
               <li 
                 key={i}
-                onClick={() => setActiveType(type)}
-                className={type === activeType ? "active" : null}>
-                {goodsTypes[type]}
+                onClick={() => setActiveType(i)}
+                className={i === activeType ? "active" : null}>
+                {productTypes[type]}
               </li>
             ) 
           }
@@ -50,7 +65,7 @@ export default function ProductCard({name, price, imageUrl, sizes, types}) {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <button className="button button--outline button--add" onClick={handleCountProduct}>
+        <button className="button button--outline button--add" onClick={addProductToCart}>
           <svg
             width="12"
             height="12"

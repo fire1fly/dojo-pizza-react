@@ -9,6 +9,7 @@ const Sort = function Sort() {
 
   const dispatch = useDispatch();
   const {sorts, activeSort} = useSelector(state => state.filter);
+  const sortRef = useRef(null);
 
   useEffect(() => {
     function handleOutsideClick(e) {
@@ -29,9 +30,7 @@ const Sort = function Sort() {
     }
     setPopupActive(false);
     dispatch(changeSort(sort));
-  }
-  
-  const sortRef = useRef(null);
+  }  
 
   return (
     <div className="sort" ref={sortRef}>
