@@ -1,11 +1,17 @@
 import React, { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { addItem } from '../store/cartSlice';
 
 const productTypes = ['тонкое', 'традиционное'];
 
 export default function Cart({ onCartBtnClick, scrollbarWidth }) {
 
   const popupEl = useRef(null);
+  const dispatch = useDispatch();
+
+  const cartState = useSelector(state => state.cart);
+  const {items, total} = cartState;
 
   useEffect(() => {
     document.documentElement.classList.add("scroll-lock");
@@ -24,10 +30,17 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
       document.body.style.paddingRight = '';
     }, 300);
   }
+  
+  function addItemToCart(item) {
 
-  const products = useSelector(state => state.cart.items);
+    const product = {
+      id: item.id,
+      size: item.size,
+      type: item.type
+    }
 
-  console.log(products);
+    dispatch(addItem(product));
+  }
 
   return (
     <div className="cart-popup" ref={popupEl}>
@@ -56,7 +69,7 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
             <div className="cart-b">
               <div className="cart-b__inner">
                 {
-                  products.map((item, i) => 
+                  items.map((item, i) => 
                     <div key={i} className="card">
                       <div className="card-delete">
                         <svg fill="none" viewBox="0 0 24 24">
@@ -74,13 +87,13 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
                         </div>
                       </div>
                       <div className="card-f">
-                        <div className="card-price">{item.price * item.count} ₽T</div>
+                        <div className="card-price">{item.price * item.count} ₽</div>
                         <div className="card-bar">
                           <div className="card-bar-btn minus">
                           <svg width="10" height="10" viewBox="0 0 10 10"><rect fill="#FFFFFF" y="4" width="10" height="2" rx="1"></rect></svg>
                           </div>
                           <div className="card-bar__value">{item.count}</div>
-                          <div className="card-bar-btn plus">
+                          <div className="card-bar-btn plus" onClick={() => addItemToCart(item)}>
                             <svg width="10" height="10" viewBox="0 0 10 10">
                               <g fill="#FFFFFF"><rect x="4" width="2" height="10" ry="1"></rect><rect y="4" width="10" height="2" rx="1"></rect></g>
                             </svg>
@@ -96,8 +109,8 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
             <div className="cart-f">
               <div className="cart-subtotal">
                 <div className="info">
-                  <div className="label">2 товара</div>
-                  <div className="value">1 638 ₽</div>
+                  <div className="label">Товаров: {items.length}</div>
+                  <div className="value">{total} ₽</div>
                 </div>
                 <div className="info">
                   <div className="label">Доставка</div>
@@ -106,7 +119,7 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
               </div>
               <div className="cart-total">
                 <div className="label">Сумма заказа</div>
-                <div className="value">1 638 ₽</div>
+                <div className="value">{total} ₽</div>
               </div>
               <button className="cart-total-btn">Оформить заказ</button>
             </div>

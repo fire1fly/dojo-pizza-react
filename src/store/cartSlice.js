@@ -13,17 +13,6 @@ export const cartSlice = createSlice({
 
       const item = state.items.find(item => item.id === action.payload.id);
 
-      // if (item) {
-      //   if ((item.size === action.payload.size) && (item.type === action.payload.type)) {
-      //     let index = state.items.findIndex(item1 => item1.id === action.payload.id);
-      //     state.items[index].count++
-      //   } else {
-      //     state.items.push({ ...action.payload, count: 1 });
-      //   }
-      // } else {
-      //   state.items.push({ ...action.payload, count: 1 });
-      // }
-
       if (item && ((item.size === action.payload.size) && (item.type === action.payload.type))) {
         let index = state.items.findIndex(item1 => item1.id === action.payload.id);
         state.items[index].count++
