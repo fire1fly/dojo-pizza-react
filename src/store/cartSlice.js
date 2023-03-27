@@ -1,4 +1,4 @@
-import { createSlice, current } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   total: 0,
@@ -34,7 +34,7 @@ export const cartSlice = createSlice({
     },
     clearCart: (state) => {
       state.items = [];
-      state.count = 0;
+      state.total = 0;
     }
   }
 });
