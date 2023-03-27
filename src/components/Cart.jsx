@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { addItem, removeItem, clearCart } from '../store/cartSlice';
+import { addItem, removeItem, clearCart, subtractItem } from '../store/cartSlice';
 
 import wordEndingByNumber from '../utils/wordEndingByNumber';
 
@@ -33,7 +33,7 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
     }, 300);
   }
   
-  function addItemToCart(item) {
+  function handleAddItem(item) {
     const product = {
       id: item.id,
       size: item.size,
@@ -42,7 +42,13 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
     dispatch(addItem(product));
   }
 
-  function removeItemFromCart(id) {
+  function handleSubtractItem(id, count) {
+    if (count > 1) {
+      dispatch(subtractItem(id));
+    }
+  }
+
+  function handleRemoveItem(id) {
     dispatch(removeItem(id));
   }
 
@@ -53,8 +59,6 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
   }
 
   const productLabel = wordEndingByNumber(items.length, ["товар", "товара", "товаров"]);
-
-  // console.log(productLabel, items.length, wordEndingByNumber);
 
   return (
     <div className="cart-popup" ref={popupEl}>
@@ -91,7 +95,7 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
                 {
                   items.map((item, i) => 
                     <div key={i} className="card">
-                      <div className="card-delete" onClick={() => removeItemFromCart(items.id)}>
+                      <div className="card-delete" onClick={() => handleRemoveItem(item.id)}>
                         <svg fill="none" viewBox="0 0 24 24">
                           <path d="M17.3 5.3a1 1 0 111.4 1.4L13.42 12l5.3 5.3a1 1 0 11-1.42 1.4L12 13.42l-5.3 5.3a1 1 0 01-1.4-1.42l5.28-5.3-5.3-5.3A1 1 0 016.7 5.3l5.3 5.28 5.3-5.3z" fill="#000"></path>
                         </svg>
@@ -109,11 +113,14 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
                       <div className="card-f">
                         <div className="card-price">{item.price * item.count} ₽</div>
                         <div className="card-bar">
-                          <div className="card-bar-btn minus">
-                          <svg width="10" height="10" viewBox="0 0 10 10"><rect fill="#FFFFFF" y="4" width="10" height="2" rx="1"></rect></svg>
+                          <div 
+                            className={`card-bar-btn minus ${item.count === 1 ? "disabled" : null}`}
+                            onClick={() => handleSubtractItem(item.id, item.count)}
+                          >
+                            <svg width="10" height="10" viewBox="0 0 10 10"><rect fill="#FFFFFF" y="4" width="10" height="2" rx="1"></rect></svg>
                           </div>
                           <div className="card-bar__value">{item.count}</div>
-                          <div className="card-bar-btn plus" onClick={() => addItemToCart(item)}>
+                          <div className="card-bar-btn plus" onClick={() => handleAddItem(item)}>
                             <svg width="10" height="10" viewBox="0 0 10 10">
                               <g fill="#FFFFFF"><rect x="4" width="2" height="10" ry="1"></rect><rect y="4" width="10" height="2" rx="1"></rect></g>
                             </svg>
