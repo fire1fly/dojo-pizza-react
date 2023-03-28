@@ -14,8 +14,9 @@ export const cartSlice = createSlice({
       const item = state.items.find(item => item.id === action.payload.id);
 
       if (item && ((item.size === action.payload.size) && (item.type === action.payload.type))) {
-        let index = state.items.findIndex(item1 => item1.id === action.payload.id);
-        state.items[index].count++
+        // let index = state.items.findIndex(item1 => item1.id === action.payload.id);
+        // state.items[index].count++
+        item.count++;
       } else {
         state.items.push({ ...action.payload, count: 1 });
       }
@@ -26,7 +27,7 @@ export const cartSlice = createSlice({
 
     },
     subtractItem: (state, action) => {
-      const item = state.items.find(item => item.id === action.payload.id);
+      const item = state.items.find(item => item.id === action.payload);
       item.count--;
 
       state.total = state.items.reduce((sum, item) => {
