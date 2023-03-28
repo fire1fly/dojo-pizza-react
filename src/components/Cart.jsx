@@ -13,7 +13,7 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
   const dispatch = useDispatch();
 
   const cartState = useSelector(state => state.cart);
-  const {items, total} = cartState;
+  const {items, totalPrice, totalCount} = cartState;
 
   useEffect(() => {
     document.documentElement.classList.add("scroll-lock");
@@ -74,8 +74,8 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
             <div className="cart-h">
               <div className="cart-h-label">
                 {
-                  items.length > 0 ? 
-                  `${items.length} ${productLabel} на ${total} ₽` :
+                  totalCount > 0 ? 
+                  `${totalCount} ${productLabel} на ${totalPrice} ₽` :
                   "0 товаров"
                 }
               </div>
@@ -136,8 +136,8 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
             <div className="cart-f">
               <div className="cart-subtotal">
                 <div className="info">
-                  <div className="label">Товаров: {items.length}</div>
-                  <div className="value">{total} ₽</div>
+                  <div className="label">Товаров: {totalCount}</div>
+                  <div className="value">{totalPrice} ₽</div>
                 </div>
                 <div className="info">
                   <div className="label">Доставка</div>
@@ -146,7 +146,7 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
               </div>
               <div className="cart-total">
                 <div className="label">Сумма заказа</div>
-                <div className="value">{total} ₽</div>
+                <div className="value">{totalPrice} ₽</div>
               </div>
               <button className="cart-total-btn">Оформить заказ</button>
             </div>

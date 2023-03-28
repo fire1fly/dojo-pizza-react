@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  total: 0,
+  totalPrice: 0,
+  totalCount: 0,
   items: []
 }
 
@@ -14,15 +15,17 @@ export const cartSlice = createSlice({
       const item = state.items.find(item => item.id === action.payload.id);
 
       if (item && ((item.size === action.payload.size) && (item.type === action.payload.type))) {
-        // let index = state.items.findIndex(item1 => item1.id === action.payload.id);
-        // state.items[index].count++
         item.count++;
       } else {
         state.items.push({ ...action.payload, count: 1 });
       }
 
-      state.total = state.items.reduce((sum, item) => {
+      state.totalPrice = state.items.reduce((sum, item) => {
         return (item.price * item.count) + sum
+      }, 0);
+
+      state.totalCount = state.items.reduce((sum, item) => {
+        return item.count + sum
       }, 0);
 
     },
@@ -30,20 +33,29 @@ export const cartSlice = createSlice({
       const item = state.items.find(item => item.id === action.payload);
       item.count--;
 
-      state.total = state.items.reduce((sum, item) => {
+      state.totalPrice = state.items.reduce((sum, item) => {
         return (item.price * item.count) + sum
+      }, 0);
+
+      state.totalCount = state.items.reduce((sum, item) => {
+        return item.count + sum
       }, 0);
     },
     removeItem: (state, action) => {
       state.items = state.items.filter(item => item.id !== action.payload);
 
-      state.total = state.items.reduce((sum, item) => {
+      state.totalPrice = state.items.reduce((sum, item) => {
         return (item.price * item.count) + sum
+      }, 0);
+
+      state.totalCount = state.items.reduce((sum, item) => {
+        return item.count + sum
       }, 0);
     },
     clearCart: (state) => {
       state.items = [];
-      state.total = 0;
+      state.totalPrice = 0;
+      state.totalCount = 0;
     }
   }
 });

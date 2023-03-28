@@ -7,7 +7,7 @@ import logo from '../assets/media/pizza-logo.svg';
 
 export default function Header({onCartBtnClick}) {
 
-  const cartTotal = useSelector(state => state.cart);
+  const {totalPrice, totalCount} = useSelector(state => state.cart);
 
   return (
     <div className="header">
@@ -26,7 +26,7 @@ export default function Header({onCartBtnClick}) {
 
           <div className="header__cart" onClick={() => onCartBtnClick(true)}>
             <a href="#" className="button button--cart">
-              <span>{cartTotal.total} ₽</span>
+              <span>{totalPrice} ₽</span>
               <div className="button__delimiter"></div>
               <svg
                 width="18"
@@ -57,7 +57,7 @@ export default function Header({onCartBtnClick}) {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span>{cartTotal.items.length}</span>
+              <span>{totalCount}</span>
             </a>
           </div>
         </div>
