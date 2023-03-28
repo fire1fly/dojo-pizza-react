@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { addItem } from '../../store/cartSlice';
 
@@ -7,24 +7,25 @@ const productTypes = ['тонкое', 'традиционное'];
 
 export default function ProductCard({id, name, price, imageUrl, sizes, types}) {
 
-  let [count, setCount] = useState(0);
   let [activeSize, setActiveSize] = useState(0);
   let [activeType, setActiveType] = useState(0);
+  
+  const productId = `${id}_${activeType}_${sizes[activeSize]}`;
 
   const dispatch = useDispatch();
+  
+  const addedProduct = useSelector(state => state.cart.items.find(item => item.id === productId));
+  const count = addedProduct ? addedProduct.count : 0;
 
   const addProductToCart = () => {
-    setCount(++count);
-
     const product = { 
-      id: `${id}_${activeType}_${sizes[activeSize]}`,
+      id: productId,
       name, 
       price, 
       imageUrl, 
       size: sizes[activeSize],
       type: activeType
     }
-
     dispatch(addItem(product));
   }
 
