@@ -3,13 +3,27 @@ import { Link } from "react-router-dom";
 
 import styles from './ErrorBlock.module.sass';
 
-export function ErrorBlock() {
+export default function ErrorBlock({title, imageUrl, description, linkRoute, linkLabel}) {
   return (
     <div className={styles.pgerr}>
-      <h1 className={styles.pgerr_title}>Ошибка! Страница не найдена</h1>
-      <Link to="/">
-        <button className={styles.pgerr_btn}>Вернуться на главную</button>
-      </Link>
+      {
+        imageUrl ?
+        <img src={imageUrl} alt="picture" className={styles.pgerr_pic} /> :
+        null
+      }
+      <h1 className={styles.pgerr_title}>{title}</h1>
+      {
+        description ? 
+        <p className={styles.pgerr_desc}>{description}</p> :
+        null
+      }
+      {
+        linkRoute ?
+          <Link to={linkRoute}>
+            <button className={styles.pgerr_btn}>{linkLabel}</button>
+          </Link> :
+          null
+      }
     </div>
   )
 }
