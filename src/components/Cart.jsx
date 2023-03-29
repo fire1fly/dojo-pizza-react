@@ -70,7 +70,7 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
           </svg>
         </div>
         <div className="cart">
-        <div className="cart__inner">
+          <div className="cart__inner">
             <div className="cart-h">
               <div className="cart-h-label">
                 {
@@ -89,7 +89,7 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
                 <div className="cart-clear-label">Очистить</div>
               </div>
             </div>
-
+            
             <div className="cart-b">
               <div className="cart-b__inner">
                 {

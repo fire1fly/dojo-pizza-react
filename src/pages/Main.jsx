@@ -25,25 +25,25 @@ export function Main() {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  const fetchProducts = () => {
+  const fetchProducts = async () => {
     setLoading(true);
 
     const search = searchValue ? `&search=${searchValue}` : '';
     const category = activeCategory !== 0 ? `&category=${activeCategory}` : '';
 
-    console.log("запрос");
-
-    axios.get(`
-      https://62f4edb1ac59075124c73e43.mockapi.io/products?p=${activePage}&l=10&sortBy=${activeSort.type}&order=${activeSort.order}${category}${search}
-    `)
-      .then(res => {
-        setLoading(false);
-        setProducts(res.data);
-      });
+    try {
+      const res = await axios.get(
+        `https://62f4edb1ac59075124c73e43.mockapi.io/products?p=${activePage}&l=10&sortBy=${activeSort.type}&order=${activeSort.order}${category}${search}`
+      );
+      setProducts(res.data);
+    } catch (error) {
+      console.log("Error fetchProdcuts: ", error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
-    console.log(window.location.search);
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
       dispatch(setFilters(params));
@@ -52,7 +52,6 @@ export function Main() {
   }, []);
 
   useEffect(() => {
-
     if (isMounted.current) {
       const queryString = qs.stringify({
         page: activePage,
