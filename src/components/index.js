@@ -7,3 +7,4 @@ export { default as Cart } from "./Cart";
 export { default as CartEmpty } from "./CartEmpty";
 export { default as CartStatic } from "./CartStatic";
 export { default as Pagination } from "./Pagination";
+export { default as ErrorBlock } from "./ErrorBlock";

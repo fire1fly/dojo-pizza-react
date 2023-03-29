@@ -1,6 +1,6 @@
 import React from 'react';
 
-import cartEmptyImage from '../assets/media/cart-empty.svg'
+import cartEmptyImage from '../assets/media/empty-picture.svg'
 
 export default function CartEmpty() {
   return (

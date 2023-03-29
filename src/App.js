@@ -5,7 +5,7 @@ import useScrollbarSize from 'react-scrollbar-size';
 import './assets/styles/app.sass';
 import { Main } from './pages/Main';
 import { ErrorPage } from './pages/ErrorPage';
-import { Header, Cart, CartEmpty, CartStatic } from './components';
+import { Header, Cart } from './components';
 
 export const Context = createContext({});
 
@@ -33,8 +33,6 @@ function App() {
           </div>
         </div>
         {cartActive ? <Cart onCartBtnClick={setCartActive} scrollbarWidth={width} /> : null}
-        {/* <CartEmpty /> */}
-        {/* <CartStatic /> */}
       </Context.Provider>
     </div>
   );
