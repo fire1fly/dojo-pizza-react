@@ -9,7 +9,8 @@ const initialState = {
   activeSort: { id: 0, type: 'rating', order: "asc" },
   categories: ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'],
   activeCategory: 0,
-  activePage: 1
+  activePage: 1,
+  searchQuery: ''
 }
 
 export const filterSlice = createSlice({
@@ -26,7 +27,11 @@ export const filterSlice = createSlice({
     changePage: (state, action) => {
       state.activePage = action.payload;
     },
+    changeSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
+    },
     setFilters: (state, action) => {
+      console.log(action.payload);
       state.activePage = Number(action.payload.page);
       state.activeCategory = Number(action.payload.category);
       state.activeSort = {
@@ -35,9 +40,10 @@ export const filterSlice = createSlice({
         order: action.payload.order
       };
       state.sorts[action.payload.orderId].order = action.payload.order;
+      state.searchQuery = action.payload.searchQuery
     }
   }
 });
 
-export const { changeSort, changeCategory, changePage, setFilters } = filterSlice.actions;
+export const { changeSort, changeCategory, changePage, changeSearchQuery, setFilters } = filterSlice.actions;
 export default filterSlice.reducer;

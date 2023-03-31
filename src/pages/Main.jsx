@@ -1,5 +1,4 @@
-import React, { useEffect, useContext, useRef } from 'react';
-import { Context } from '../App';
+import React, { useEffect, useRef } from 'react';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,11 +11,8 @@ import errorImage from '../assets/media/empty-picture.svg';
 
 export function Main() {
 
-  const {categories, activeCategory, activeSort, activePage} = useSelector(state => state.filter);
+  const {categories, activeCategory, activeSort, activePage, searchQuery} = useSelector(state => state.filter);
   const { items, status } = useSelector(state => state.products);
-
-  const { search } = useContext(Context);
-  let { searchValue } = search;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,7 +22,7 @@ export function Main() {
 
   const handleFetchProducts = () => {
 
-    const search = searchValue ? `&search=${searchValue}` : '';
+    const search = searchQuery ? `&search=${searchQuery}` : '';
     const category = activeCategory !== 0 ? `&category=${activeCategory}` : '';
 
     try {
@@ -44,6 +40,7 @@ export function Main() {
   }
 
   useEffect(() => {
+    console.log(window.location.search);
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
       dispatch(setFilters(params));
@@ -60,6 +57,7 @@ export function Main() {
         order: activeSort.order,
         orderId: activeSort.id,
         category: activeCategory,
+        searchQuery
       });
       navigate(`?${queryString}`)
     }
@@ -72,7 +70,7 @@ export function Main() {
 
     window.scrollTo(0, 0);
 
-  }, [activePage, searchValue, activeCategory, activeSort]);
+  }, [activePage, searchQuery, activeCategory, activeSort]);
 
   if (status === "error") {
     return <ErrorBlock 

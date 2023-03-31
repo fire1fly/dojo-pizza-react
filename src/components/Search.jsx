@@ -1,16 +1,16 @@
-import React, { useState, useContext, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 
 import iconSearch from '../assets/media/icon-search.svg';
 import iconClear from '../assets/media/icon-clear.svg';
-import { Context } from '../App';
 import debounce from 'lodash.debounce';
+import { useDispatch } from 'react-redux';
+import { changeSearchQuery } from '../store/filterSlice';
 
 export default function Search() {
 
   let [localValue, setLocalValue] = useState('');
 
-  const {search} = useContext(Context);
-  let {searchValue, setSearchValue} = search;
+  const dispatch = useDispatch();
 
   const searchInput = useRef(null);
 
@@ -23,8 +23,7 @@ export default function Search() {
   
   const delayCallUpdateSearch = useCallback(
     debounce((value) => {
-      setSearchValue(value);
-      console.log(value);
+      dispatch(changeSearchQuery(value))
     }, 600),
   []);
 

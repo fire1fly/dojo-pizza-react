@@ -12,28 +12,21 @@ export const Context = createContext({});
 function App() {
 
   let [cartActive, setCartActive] = useState(false);
-  let [searchValue, setSearchValue] = useState('');
 
   let { width } = useScrollbarSize();
 
-  const contextValue = {
-    search: { searchValue, setSearchValue }
-  }
-
   return (
     <div className="wrapper">
-      <Context.Provider value={contextValue}>
-        <Header onCartBtnClick={setCartActive} />
-        <div className="content">
-          <div className="container">
-            <Routes>
-              <Route path="/" element={<Main />} />
-              <Route path="*" element={<ErrorPage />} />
-            </Routes>
-          </div>
+      <Header onCartBtnClick={setCartActive} />
+      <div className="content">
+        <div className="container">
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
         </div>
-        {cartActive ? <Cart onCartBtnClick={setCartActive} scrollbarWidth={width} /> : null}
-      </Context.Provider>
+      </div>
+      {cartActive ? <Cart onCartBtnClick={setCartActive} scrollbarWidth={width} /> : null}
     </div>
   );
 }
