@@ -91,7 +91,7 @@ export function Main() {
       </div>
 
       <h2 className="content__title">Пицца</h2>
-      <div className={`content__items ${items.length === 0 ? "_empty" : null}`}>
+      <div className={`content__items ${status === "loaded" && items.length === 0 ? "_empty" : null}`}>
         {
           (status === "loading") ?
             Array(10).fill('').map((_, i) => <ProductSkelet key={i} />) :
