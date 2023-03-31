@@ -15,7 +15,7 @@ export default function CartEmpty({onCloseCart}) {
           className="button button--cart"
           onClick={() => onCloseCart()}
         >
-            Вернуться в меню
+            Вернуться к товарам
         </button>
       </div>
     </div>

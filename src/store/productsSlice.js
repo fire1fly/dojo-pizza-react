@@ -33,7 +33,7 @@ export const productsSlice = createSlice({
       state.items = action.payload;
       state.status = "loaded"
     },
-    [fetchProducts.rejected]: (state) => {
+    [fetchProducts.rejected]: (state, action) => {
       state.status = "error";
     },
   }

@@ -26,7 +26,7 @@ export default function Header({onCartBtnClick}) {
           <Search/>
 
           <div className="header__cart" onClick={() => onCartBtnClick(true)}>
-            <a href="#" className="button button--cart">
+            <div className="button button--cart">
               <span>{totalPrice} ₽</span>
               <div className="button__delimiter"></div>
               <svg
@@ -59,7 +59,7 @@ export default function Header({onCartBtnClick}) {
                 />
               </svg>
               <span>{totalCount}</span>
-            </a>
+            </div>
           </div>
         </div>
       </div>
