@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import wordEndingByNumber from '../../utils/wordEndingByNumber';
-import { addItem, removeItem, clearCart, subtractItem } from '../../store/cartSlice';
+import { addItem, removeItem, clearCart, subtractItem, selectCart } from '../../store/cartSlice';
 import CartEmpty from './CartEmpty';
 
 
@@ -13,7 +13,7 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
   const popupEl = useRef(null);
   const dispatch = useDispatch();
 
-  const cartState = useSelector(state => state.cart);
+  const cartState = useSelector(selectCart);
   const {items, totalPrice, totalCount} = cartState;
 
   useEffect(() => {
