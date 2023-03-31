@@ -423,6 +423,10 @@ a {
 	grid-row-gap: 60px;
 	justify-content: space-around;
 }
+.content__items._empty {
+  grid-template-columns: 1fr;
+  justify-content: center;
+}
 .content__top {
   display: flex;
   align-items: center;

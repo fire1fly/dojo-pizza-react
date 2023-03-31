@@ -82,6 +82,7 @@ export function Main() {
     />
   }
 
+
   return (
     <>
       <div className="content__top">
@@ -89,17 +90,18 @@ export function Main() {
         <Sort/>
       </div>
 
-      {/* {
-        status === "error" ? 
-        
-      } */}
-
       <h2 className="content__title">Пицца</h2>
-      <div className="content__items">
+      <div className={`content__items ${items.length === 0 ? "_empty" : null}`}>
         {
-          status === "loaded" ?
+          (status === "loading") ?
+            Array(10).fill('').map((_, i) => <ProductSkelet key={i} />) :
+          (status === "loaded" && items.length !== 0) ?
             items.map(item => <ProductCard key={item.id} {...item} />) :
-            Array(10).fill('').map((_, i) => <ProductSkelet key={i} />) 
+          (status === "loaded" && items.length === 0) ?
+            <ErrorBlock 
+              title="Не найдено ни одного товара." 
+              imageUrl={errorImage} 
+            /> : null
         }
       </div>
       {
