@@ -31,7 +31,6 @@ export const filterSlice = createSlice({
       state.searchQuery = action.payload;
     },
     setFilters: (state, action) => {
-      console.log(action.payload);
       state.activePage = Number(action.payload.page);
       state.activeCategory = Number(action.payload.category);
       state.activeSort = {

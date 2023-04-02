@@ -40,7 +40,6 @@ export function Main() {
   }
 
   useEffect(() => {
-    console.log(window.location.search);
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
       dispatch(setFilters(params));
