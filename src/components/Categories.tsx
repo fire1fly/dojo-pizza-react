@@ -3,10 +3,14 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeCategory } from '../store/filterSlice';
 
-export default function Categories({categories}) {
+interface ICategories {
+  categories: string[]
+}
+
+const Categories: React.FC<ICategories> = ({categories}) => {
 
   const dispatch = useDispatch();
-  const catValue = useSelector(state => state.filter.activeCategory);
+  const catValue = useSelector((state: any) => state.filter.activeCategory);
 
   return (
     <div className="categories">
@@ -16,7 +20,7 @@ export default function Categories({categories}) {
             <li 
               key={index} 
               onClick={() => dispatch(changeCategory(index))}
-              className={index === catValue ? "active" : null}>
+              className={index === catValue ? "active" : ""}>
                 {item}
             </li>
           )
@@ -26,3 +30,5 @@ export default function Categories({categories}) {
     </div>
   )
 }
+
+export default Categories;
