@@ -3,15 +3,19 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { changePage } from '../store/filterSlice';
 
-export default function Pagination({count}) {
+interface IPagintation {
+  count: number
+}
+
+const Pagination: React.FC<IPagintation> = ({count}) => {
 
   let pagList = [];
   pagList = Array(count).fill('').map((_, index) => index + 1);
 
   const dispatch = useDispatch();
-  const { activePage } = useSelector(state => state.filter);
+  const { activePage } = useSelector((state: any) => state.filter);
 
-  function handleStep(flag) {
+  function handleStep(flag: "prev" | "next") {
     if (flag === "prev" && activePage > 1) {
       dispatch(changePage(activePage - 1));
     }
@@ -58,3 +62,5 @@ export default function Pagination({count}) {
     </div>
   )
 }
+
+export default Pagination;
