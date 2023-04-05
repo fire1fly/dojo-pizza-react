@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom'
 import useScrollbarSize from 'react-scrollbar-size';
 import { Cart, Header } from '../components'
