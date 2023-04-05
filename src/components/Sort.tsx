@@ -1,20 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { changeSort } from '../store/filterSlice';
+import { IActiveSort, changeSort } from '../store/filterSlice';
+
+type MouseEventWithPath = MouseEvent & {
+  path: Node[]
+}
 
 const Sort = function Sort() {
 
   let [popupActive, setPopupActive] = useState(false);
 
   const dispatch = useDispatch();
-  const {sorts, activeSort} = useSelector(state => state.filter);
-  const sortRef = useRef(null);
+  const {sorts, activeSort} = useSelector((state: any) => state.filter);
+  const sortRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function handleOutsideClick(e) {
-      const path = e.path || e.composedPath();
-      if (!path.includes(sortRef.current)) {
+    function handleOutsideClick(e: MouseEvent) {
+      const _event = e as MouseEventWithPath;
+
+      if (sortRef.current && !_event.composedPath().includes(sortRef.current)) {
         setPopupActive(false);
       }
     }
@@ -24,7 +29,7 @@ const Sort = function Sort() {
     }
   }, [])
 
-  function handleSort(e, sort) {
+  function handleSort(e: any, sort: IActiveSort) {
     if (e.target.closest(".active")) {
       sort.order = sort.order === "asc" ? "desc" : "asc";
     }
@@ -36,7 +41,7 @@ const Sort = function Sort() {
     <div className="sort" ref={sortRef}>
       <div className="sort__label">
         <svg
-          transform={popupActive ? "rotate(180)" : null}
+          transform={popupActive ? "rotate(180)" : ""}
           width="10"
           height="6"
           viewBox="0 0 10 6"
@@ -68,13 +73,13 @@ const Sort = function Sort() {
         (<div className="sort__popup">
             <ul>
             {
-              sorts.map((item, i) => 
+              sorts.map((item: any, i: number) => 
                 <li
                   key={i}
                   onClick={(e) => {
                     handleSort(e, {id: i, type: item.type, order: item.order})
                   }}
-                  className={activeSort.id === i ? 'active' : null}>
+                  className={activeSort.id === i ? 'active' : ""}>
                   <div className="label">{item.name}</div>
                   <div className="order">
                     {item.order === "asc" ? 
