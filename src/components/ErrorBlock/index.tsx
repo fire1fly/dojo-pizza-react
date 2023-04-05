@@ -3,7 +3,15 @@ import { Link } from "react-router-dom";
 
 import styles from './ErrorBlock.module.sass';
 
-export default function ErrorBlock({title, imageUrl, description, linkRoute, linkLabel}) {
+interface IErrorBlock {
+  title: string,
+  imageUrl?: string,
+  description?: string,
+  linkRoute?: string,
+  linkLabel?: string
+}
+
+const ErrorBlock: React.FC<IErrorBlock> = ({title, imageUrl, description, linkRoute, linkLabel}) => {
   return (
     <div className={styles.pgerr}>
       {
@@ -27,3 +35,5 @@ export default function ErrorBlock({title, imageUrl, description, linkRoute, lin
     </div>
   )
 }
+
+export default ErrorBlock;

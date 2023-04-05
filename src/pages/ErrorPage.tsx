@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ErrorBlock } from "../components";
 
-export function ErrorPage() {
+export default function ErrorPage() {
   return (
     <ErrorBlock
       title={"Ошибка! Страница не найдена"}
