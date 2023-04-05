@@ -2,7 +2,7 @@ import React from 'react';
 
 import cartEmptyImage from '../../assets/media/empty-picture.svg';
 
-export default function CartEmpty({onCloseCart}) {
+const CartEmpty: React.FC<{onCloseCart: () => void}> = ({onCloseCart}) => {
   return (
     <div className="cart-empty">
       <div className="cart-empty__inner">
@@ -21,3 +21,5 @@ export default function CartEmpty({onCloseCart}) {
     </div>
   )
 }
+
+export default CartEmpty;

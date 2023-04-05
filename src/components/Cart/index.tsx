@@ -5,12 +5,16 @@ import wordEndingByNumber from '../../utils/wordEndingByNumber';
 import { addItem, removeItem, clearCart, subtractItem, selectCart } from '../../store/cartSlice';
 import CartEmpty from './CartEmpty';
 
+interface ICart {
+  onCartBtnClick: (isActive: boolean) => void,
+  scrollbarWidth: number
+}
 
 const productTypes = ['тонкое', 'традиционное'];
 
-export default function Cart({ onCartBtnClick, scrollbarWidth }) {
+const Cart: React.FC<ICart> = ({ onCartBtnClick, scrollbarWidth }) => {
 
-  const popupEl = useRef(null);
+  const popupEl = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
 
   const cartState = useSelector(selectCart);
@@ -20,21 +24,21 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
     document.documentElement.classList.add("scroll-lock");
     document.body.style.paddingRight = `${scrollbarWidth}px`;
     setTimeout(() => {
-      popupEl.current.classList.add("active");
+      popupEl.current?.classList.add("active");
     }, 0);
   }, [scrollbarWidth]);
 
   function closeCart() {
-    popupEl.current.classList.add("closing");
+    popupEl.current?.classList.add("closing");
     setTimeout(() => {
-      popupEl.current.classList.remove("active");
+      popupEl.current?.classList.remove("active");
       onCartBtnClick(false);
       document.documentElement.classList.remove("scroll-lock");
       document.body.style.paddingRight = '';
     }, 300);
   }
   
-  function handleAddItem(item) {
+  function handleAddItem(item: any) {
     const product = {
       id: item.id,
       size: item.size,
@@ -43,13 +47,13 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
     dispatch(addItem(product));
   }
 
-  function handleSubtractItem(id, count) {
+  function handleSubtractItem(id: number, count: number) {
     if (count > 1) {
       dispatch(subtractItem(id));
     }
   }
 
-  function handleRemoveItem(id) {
+  function handleRemoveItem(id: number) {
     dispatch(removeItem(id));
   }
 
@@ -97,7 +101,7 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
               <div className="cart-b">
                 <div className="cart-b__inner">
                   {
-                    items.map((item, i) => 
+                    items.map((item: any, i: number) => 
                       <div key={i} className="card">
                         <div className="card-delete" onClick={() => handleRemoveItem(item.id)}>
                           <svg fill="none" viewBox="0 0 24 24">
@@ -161,3 +165,5 @@ export default function Cart({ onCartBtnClick, scrollbarWidth }) {
     </div>
   )
 }
+
+export default Cart;
