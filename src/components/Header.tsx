@@ -6,7 +6,11 @@ import Search from './Search';
 import logo from '../assets/media/pizza-logo.svg';
 import { selectCart } from '../store/cartSlice';
 
-export default function Header({onCartBtnClick}) {
+interface IHeader {
+  onCartBtnClick: (flag: boolean) => void;
+}
+
+const Header: React.FC<IHeader> = ({onCartBtnClick}) => {
 
   const {totalPrice, totalCount} = useSelector(selectCart);
 
@@ -65,3 +69,6 @@ export default function Header({onCartBtnClick}) {
       </div>
   )
 }
+
+
+export default Header;
