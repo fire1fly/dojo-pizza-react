@@ -5,7 +5,7 @@ import { Cart, Header } from '../components'
 
 export default function MainLayout() {
 
-  let [cartActive, setCartActive] = useState(false);
+  let [cartActive, setCartActive] = useState<boolean>(false);
 
   let { width } = useScrollbarSize();
 

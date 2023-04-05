@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 
 import './assets/styles/app.sass';
-import { Main } from './pages/Main';
-import { ErrorPage } from './pages/ErrorPage';
+import Main from './pages/Main';
+import ErrorPage from './pages/ErrorPage';
 import MainLayout from './layouts/MainLayout';
 
 function App() {

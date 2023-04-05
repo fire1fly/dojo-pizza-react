@@ -9,10 +9,18 @@ import {Categories, Sort, ProductCard, ProductSkelet, Pagination, ErrorBlock } f
 
 import errorImage from '../assets/media/empty-picture.svg';
 
-export function Main() {
+interface IProductsQuery {
+  activePage: number,
+  sortType: string,
+  sortOrder: string,
+  category: string,
+  search: string
+}
 
-  const {categories, activeCategory, activeSort, activePage, searchQuery} = useSelector(state => state.filter);
-  const { items, status } = useSelector(state => state.products);
+const Main: React.FC = () => {
+
+  const {categories, activeCategory, activeSort, activePage, searchQuery} = useSelector((state: any) => state.filter);
+  const { items, status } = useSelector((state: any) => state.products);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,7 +41,10 @@ export function Main() {
         category,
         search
       }
-      dispatch(fetchProducts(params));
+      dispatch(
+        // @ts-ignore
+        fetchProducts(params)
+      );
     } catch (error) {
       console.log("Error fetchProdcuts: ", error);
     }
@@ -93,7 +104,7 @@ export function Main() {
           (status === "loading") ?
             Array(10).fill('').map((_, i) => <ProductSkelet key={i} />) :
           (status === "loaded" && items.length !== 0) ?
-            items.map(item => <ProductCard key={item.id} {...item} />) :
+            items.map((item: any) => <ProductCard key={item.id} {...item} />) :
           (status === "loaded" && items.length === 0) ?
             <ErrorBlock 
               title="Не найдено ни одного товара." 
@@ -109,3 +120,5 @@ export function Main() {
     </>
   )
 }
+
+export default Main;
