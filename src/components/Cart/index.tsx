@@ -42,18 +42,19 @@ const Cart: React.FC<ICart> = ({ onCartBtnClick, scrollbarWidth }) => {
     const product = {
       id: item.id,
       size: item.size,
-      type: item.type
+      type: item.type,
+      ...item
     }
     dispatch(addItem(product));
   }
 
-  function handleSubtractItem(id: number, count: number) {
+  function handleSubtractItem(id: string, count: number) {
     if (count > 1) {
       dispatch(subtractItem(id));
     }
   }
 
-  function handleRemoveItem(id: number) {
+  function handleRemoveItem(id: string) {
     dispatch(removeItem(id));
   }
 
