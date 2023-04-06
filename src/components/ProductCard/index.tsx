@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addItem, selectCartItemById } from '../../store/cartSlice';
-
-interface IProduct {
-  id: number,
-  name: string,
-  price: number,
-  imageUrl: string,
-  sizes: number[],
-  types: number[]
-}
+import { ICartProduct, addItem, selectCartItemById } from '../../store/cartSlice';
+import { IProduct } from '../../store/productsSlice';
 
 const productTypes = ['тонкое', 'традиционное'];
 
@@ -27,13 +19,14 @@ const ProductCard: React.FC<IProduct> = ({id, name, price, imageUrl, sizes, type
   const count = addedProduct ? addedProduct.count : 0;  
 
   const addProductToCart = () => {
-    const product = { 
+    const product: ICartProduct = { 
       id: productId,
       name, 
       price, 
       imageUrl, 
       size: sizes[activeSize],
-      type: activeType
+      type: activeType,
+      count: 1
     }
     dispatch(addItem(product));
   }
