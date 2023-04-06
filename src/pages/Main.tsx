@@ -2,27 +2,20 @@ import React, { useEffect, useRef } from 'react';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
-import { setFilters } from '../store/filterSlice';
+import { ISetFilters, setFilters } from '../store/filterSlice';
 import { fetchProducts } from '../store/productsSlice';
 
 import {Categories, Sort, ProductCard, ProductSkelet, Pagination, ErrorBlock } from '../components';
 
 import errorImage from '../assets/media/empty-picture.svg';
-
-interface IProductsQuery {
-  activePage: number,
-  sortType: string,
-  sortOrder: string,
-  category: string,
-  search: string
-}
+import { RootState, useAppDispatch } from '../store/store';
 
 const Main: React.FC = () => {
 
-  const {categories, activeCategory, activeSort, activePage, searchQuery} = useSelector((state: any) => state.filter);
-  const { items, status } = useSelector((state: any) => state.products);
+  const {categories, activeCategory, activeSort, activePage, searchQuery} = useSelector((state: RootState) => state.filter);
+  const { items, status } = useSelector((state: RootState) => state.products);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const isSearch = useRef(false);
@@ -35,16 +28,13 @@ const Main: React.FC = () => {
 
     try {
       const params = {
-        activePage,
+        activePage: String(activePage),
         sortType: activeSort.type,
         sortOrder: activeSort.order,
         category,
         search
       }
-      dispatch(
-        // @ts-ignore
-        fetchProducts(params)
-      );
+      dispatch(fetchProducts(params));
     } catch (error) {
       console.log("Error fetchProdcuts: ", error);
     }
@@ -53,7 +43,17 @@ const Main: React.FC = () => {
   useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
-      dispatch(setFilters(params));
+
+      const filters: ISetFilters = {
+        page: Number(params.page),
+        category: Number(params.category),
+        searchQuery: String(params.searchQuery),
+        sortId: Number(params.sortId),
+        sortType: String(params.sortType),
+        sortOrder: String(params.sortOrder)
+      }
+
+      dispatch(setFilters(filters));
       isSearch.current = true;
     }
   }, []);
@@ -63,9 +63,9 @@ const Main: React.FC = () => {
       const queryString = qs.stringify({
         page: activePage,
         limit: '10',
-        sortBy: activeSort.type,
-        order: activeSort.order,
-        orderId: activeSort.id,
+        sortType: activeSort.type,
+        sortOrder: activeSort.order,
+        sortId: activeSort.id,
         category: activeCategory,
         searchQuery
       });
@@ -99,13 +99,13 @@ const Main: React.FC = () => {
       </div>
 
       <h2 className="content__title">Пицца</h2>
-      <div className={`content__items ${status === "loaded" && items.length === 0 ? "_empty" : null}`}>
+      <div className={`content__items ${status === "success" && items.length === 0 ? "_empty" : null}`}>
         {
           (status === "loading") ?
             Array(10).fill('').map((_, i) => <ProductSkelet key={i} />) :
-          (status === "loaded" && items.length !== 0) ?
+          (status === "success" && items.length !== 0) ?
             items.map((item: any) => <ProductCard key={item.id} {...item} />) :
-          (status === "loaded" && items.length === 0) ?
+          (status === "success" && items.length === 0) ?
             <ErrorBlock 
               title="Не найдено ни одного товара." 
               imageUrl={errorImage} 
