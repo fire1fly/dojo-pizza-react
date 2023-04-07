@@ -2,21 +2,22 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { IActiveSort, changeSort } from '../store/filterSlice';
+import { RootState } from '../store/store';
 
 type MouseEventWithPath = MouseEvent & {
   path: Node[]
 }
 
-const Sort = function Sort() {
+const Sort: React.FC = () => {
 
   let [popupActive, setPopupActive] = useState(false);
 
   const dispatch = useDispatch();
-  const {sorts, activeSort} = useSelector((state: any) => state.filter);
+  const {sorts, activeSort} = useSelector((state: RootState) => state.filter);
   const sortRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function handleOutsideClick(e: MouseEvent) {
+    const handleOutsideClick = (e: MouseEvent) => {
       const _event = e as MouseEventWithPath;
 
       if (sortRef.current && !_event.composedPath().includes(sortRef.current)) {
@@ -27,15 +28,16 @@ const Sort = function Sort() {
     return () => {
       document.body.removeEventListener("click", handleOutsideClick);
     }
-  }, [])
+  }, []);
 
-  function handleSort(e: any, sort: IActiveSort) {
-    if (e.target.closest(".active")) {
+  const handleSort = React.useCallback((e: React.MouseEvent, sort: IActiveSort) => {
+    const target = e.target as HTMLElement;
+    if (target.closest(".active")) {
       sort.order = sort.order === "asc" ? "desc" : "asc";
     }
     setPopupActive(false);
     dispatch(changeSort(sort));
-  }  
+  }, []);
 
   return (
     <div className="sort" ref={sortRef}>
@@ -76,8 +78,8 @@ const Sort = function Sort() {
               sorts.map((item: any, i: number) => 
                 <li
                   key={i}
-                  onClick={(e) => {
-                    handleSort(e, {id: i, type: item.type, order: item.order})
+                  onClick={(event) => {
+                    handleSort(event, {id: i, type: item.type, order: item.order})
                   }}
                   className={activeSort.id === i ? 'active' : ""}>
                   <div className="label">{item.name}</div>
@@ -102,4 +104,5 @@ const Sort = function Sort() {
   )
 }
 
-export default Sort;
+// export default Sort;
+export default React.memo(Sort);
