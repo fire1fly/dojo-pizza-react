@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { changePage } from '../store/filterSlice';
+import { RootState } from '../store/store';
 
 interface IPagintation {
   count: number
@@ -13,7 +14,7 @@ const Pagination: React.FC<IPagintation> = ({count}) => {
   pagList = Array(count).fill('').map((_, index) => index + 1);
 
   const dispatch = useDispatch();
-  const { activePage } = useSelector((state: any) => state.filter);
+  const { activePage } = useSelector((state: RootState) => state.filter);
 
   function handleStep(flag: "prev" | "next") {
     if (flag === "prev" && activePage > 1) {

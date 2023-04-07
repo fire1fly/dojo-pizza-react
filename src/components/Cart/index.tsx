@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import wordEndingByNumber from '../../utils/wordEndingByNumber';
-import { addItem, removeItem, clearCart, subtractItem, selectCart } from '../../store/cartSlice';
+import { addItem, removeItem, clearCart, subtractItem, selectCart, ICartProduct } from '../../store/cartSlice';
 import CartEmpty from './CartEmpty';
 
 interface ICart {
@@ -38,12 +38,12 @@ const Cart: React.FC<ICart> = ({ onCartBtnClick, scrollbarWidth }) => {
     }, 300);
   }
   
-  function handleAddItem(item: any) {
+  function handleAddItem(item: ICartProduct) {
     const product = {
+      ...item,
       id: item.id,
       size: item.size,
       type: item.type,
-      ...item
     }
     dispatch(addItem(product));
   }
@@ -102,7 +102,7 @@ const Cart: React.FC<ICart> = ({ onCartBtnClick, scrollbarWidth }) => {
               <div className="cart-b">
                 <div className="cart-b__inner">
                   {
-                    items.map((item: any, i: number) => 
+                    items.map((item: ICartProduct, i: number) => 
                       <div key={i} className="card">
                         <div className="card-delete" onClick={() => handleRemoveItem(item.id)}>
                           <svg fill="none" viewBox="0 0 24 24">
