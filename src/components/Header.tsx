@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux'
 
@@ -12,7 +12,11 @@ interface IHeader {
 
 const Header: React.FC<IHeader> = ({onCartBtnClick}) => {
 
-  const {totalPrice, totalCount} = useSelector(selectCart);
+  const {totalPrice, totalCount, items} = useSelector(selectCart);
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(items));
+  }, [items]);
 
   return (
     <div className="header">

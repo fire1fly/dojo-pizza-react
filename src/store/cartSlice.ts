@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from './store';
+import reduceBy from '../utils/reduceBy';
 
 export interface ICartProduct {
   id: string,
@@ -17,10 +18,14 @@ interface ICartState {
   items: ICartProduct[]
 }
 
+const items: ICartProduct[] = JSON.parse(localStorage.getItem("cart") as string) || [];
+const totalPrice = reduceBy<ICartProduct>(items, (item) => item.price * item.count);
+const totalCount = reduceBy<ICartProduct>(items, (item) => item.count);
+
 const initialState: ICartState = {
-  totalPrice: 0,
-  totalCount: 0,
-  items: []
+  totalPrice,
+  totalCount,
+  items
 }
 
 export const cartSlice = createSlice({
@@ -37,13 +42,8 @@ export const cartSlice = createSlice({
         state.items.push({ ...action.payload, count: 1 });
       }
 
-      state.totalPrice = state.items.reduce((sum, item) => {
-        return (item.price * item.count) + sum
-      }, 0);
-
-      state.totalCount = state.items.reduce((sum, item) => {
-        return item.count + sum
-      }, 0);
+      state.totalPrice = reduceBy<ICartProduct>(state.items, (item) => item.price * item.count);
+      state.totalCount = reduceBy<ICartProduct>(state.items, (item) => item.count);
 
     },
     subtractItem: (state, action: PayloadAction<string>) => {
@@ -53,24 +53,14 @@ export const cartSlice = createSlice({
         item.count--;
       }
 
-      state.totalPrice = state.items.reduce((sum, item) => {
-        return (item.price * item.count) + sum
-      }, 0);
-
-      state.totalCount = state.items.reduce((sum, item) => {
-        return item.count + sum
-      }, 0);
+      state.totalPrice = reduceBy<ICartProduct>(state.items, (item) => item.price * item.count);
+      state.totalCount = reduceBy<ICartProduct>(state.items, (item) => item.count);
     },
     removeItem: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter(item => item.id !== action.payload);
 
-      state.totalPrice = state.items.reduce((sum, item) => {
-        return (item.price * item.count) + sum
-      }, 0);
-
-      state.totalCount = state.items.reduce((sum, item) => {
-        return item.count + sum
-      }, 0);
+      state.totalPrice = reduceBy<ICartProduct>(state.items, (item) => item.price * item.count);
+      state.totalCount = reduceBy<ICartProduct>(state.items, (item) => item.count);
     },
     clearCart: (state) => {
       state.items = [];
