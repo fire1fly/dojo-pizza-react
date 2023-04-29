@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom'
 import useScrollbarSize from 'react-scrollbar-size';
-import { Cart, Header } from '../components'
+import { Header, Cart } from '../components'
+
+console.log(Cart);
 
 export default function MainLayout() {
 

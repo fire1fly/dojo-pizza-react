@@ -139,7 +139,6 @@ const Cart: React.FC<ICart> = ({ onCartBtnClick, scrollbarWidth }) => {
                       </div>
                     )
                   }
-                  
                 </div>
               </div>
               <div className="cart-f">
